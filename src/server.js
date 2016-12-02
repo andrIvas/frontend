@@ -1,87 +1,73 @@
 import 'babel-polyfill';
 import path from 'path';
 import express from 'express';
-import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import UniversalRouter from 'universal-router';
+import { Router, RouterContext, match } from 'react-router';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
 import PrettyError from 'pretty-error';
+
 import App from './components/App';
 import Html from './components/Html';
+import combinedReducers from './common/reducers';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.scss';
-import routes from './routes';
+import routes from './common/routes/routing';
 // import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port } from './config';
 
+const finalCreateStore = applyMiddleware()(createStore);
 const app = express();
-
-//
-// Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
-// user agent is not known.
-// -----------------------------------------------------------------------------
-global.navigator = global.navigator || {};
-global.navigator.userAgent = global.navigator.userAgent || 'all';
-
-//
-// Register Node.js middleware
-// -----------------------------------------------------------------------------
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-//
-// Authentication
-// -----------------------------------------------------------------------------
 
 if (process.env.NODE_ENV !== 'production') {
   app.enable('trust proxy');
 }
 
-
-//
-// Register server-side rendering middleware
-// -----------------------------------------------------------------------------
 app.get('*', async (req, res, next) => {
   try {
     const css = new Set();
-
-    // Global (context) variables that can be easily accessed from any React component
-    // https://facebook.github.io/react/docs/context.html
     const context = {
-      // Enables critical path CSS rendering
-      // https://github.com/kriasoft/isomorphic-style-loader
       insertCss: (...styles) => {
         // eslint-disable-next-line no-underscore-dangle
         styles.forEach(style => css.add(style._getCss()));
       },
     };
 
-    const route = await UniversalRouter.resolve(routes, {
-      path: req.path,
-      query: req.query,
+    const store = finalCreateStore(combinedReducers);
+    match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+      if (error) {
+        return res.status(500).send(error.message);
+      }
+      if (redirectLocation) {
+        return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+      }
+
+      if (renderProps == null) {
+        return res.status(404).send('Not found');
+      }
+      // return fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
+      return Promise.resolve()
+        .then(() => {
+          const data = {};
+          data.children = ReactDOM.renderToString((
+            <Provider store={store}>
+              <RouterContext {...renderProps} />
+            </Provider>
+          ));
+          data.state = JSON.stringify(store.getState());
+          data.style = [...css].join('');
+          data.scripts = []
+          const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
+          res.status(200);
+          res.send(`<!doctype html>${html}`);
+          // console.log('\ndata:\n', data);
+          // console.log('\nhtml:\n', html);
+        })
+        .then(page => res.status(200).send(page))
+        .catch(err => res.end(err.message));
     });
-
-    if (route.redirect) {
-      res.redirect(route.status || 302, route.redirect);
-      return;
-    }
-
-    const data = { ...route };
-    data.children = ReactDOM.renderToString(<App context={context}>{route.component}</App>);
-    data.style = [...css].join('');
-    // data.scripts = [
-    //   assets.vendor.js,
-    //   assets.client.js,
-    // ];
-    // if (assets[route.chunk]) {
-    //   data.scripts.push(assets[route.chunk].js);
-    // }
-
-    const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-    res.status(route.status || 200);
-    res.send(`<!doctype html>${html}`);
   } catch (err) {
     next(err);
   }

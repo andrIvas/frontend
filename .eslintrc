@@ -8,6 +8,7 @@
     "browser": true
   },
   "rules": {
+    "no-use-before-define": "warn",
     "arrow-parens": "off",
     "generator-star-spacing": "off",
     "import/extensions": "off",

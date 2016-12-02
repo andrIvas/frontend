@@ -345,7 +345,7 @@ const serverConfig = extend(true, {}, config, {
     __dirname: false,
   },
 
-  devtool: isDebug ? 'source-map' : 'source-map',
+  devtool: isDebug ? 'source-map' : false,
 });
 
 export default [clientConfig, serverConfig];
