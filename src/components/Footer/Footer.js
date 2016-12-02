@@ -26,21 +26,21 @@ class Footer extends React.Component {
                   <li><Link className="gl_link" to="#">2-комнатные</Link></li>
                 </ul>
               </li>
-              <li className="main-menu_item menuItem"><a className="gl_link" href="#">Новостройки</a>
+              <li className="main-menu_item menuItem"><Link className="gl_link" to="#">Новостройки</Link>
                 <ul className="main-menu_sub-menu">
                   <li><Link className="gl_link" to="#">Все новостройки</Link></li>
                   <li><Link className="gl_link" to="#">Москва</Link></li>
                   <li><Link className="gl_link" to="#">Московская область</Link></li>
                 </ul>
               </li>
-              <li className="main-menu_item menuItem"><a className="gl_link" href="#">Компании</a>
+              <li className="main-menu_item menuItem"><Link className="gl_link" to="#">Компании</Link>
                 <ul className="main-menu_sub-menu">
                   <li><Link className="gl_link" to="#">Все компании</Link></li>
                   <li><Link className="gl_link" to="#">Рейтинг компаний</Link></li>
                   <li><Link className="gl_link" to="#">Лучшие 2016 года</Link></li>
                 </ul>
               </li>
-              <li className="main-menu_item menuItem"><a className="gl_link" href="#">Полезное</a>
+              <li className="main-menu_item menuItem"><Link className="gl_link" to="#">Полезное</Link>
                 <ul className="main-menu_sub-menu">
                   <li><Link className="gl_link" to="#">Иноформация</Link></li>
                   <li><Link className="gl_link" to="#">Законы и акты</Link></li>
@@ -49,10 +49,10 @@ class Footer extends React.Component {
             </ul>
           </div>
           <div className="footer-copyright_holder">
-            <div className="footer-copyright">2011—2016, kvartirium.ru <br/> - всё, что нужно знать о квартирах</div>
-            <div className="footer-adds">По вопросам размещения  рекламы и сотрудничества с сайтом <br/>  обращайтесь в рекламный отдел:+7 (495) 432-43-22</div>
+            <div className="footer-copyright">2011—2016, kvartirium.ru <br /> - всё, что нужно знать о квартирах</div>
+            <div className="footer-adds">По вопросам размещения  рекламы и сотрудничества с сайтом <br />  обращайтесь в рекламный отдел:+7 (495) 432-43-22</div>
             <ul className="footer_counters">
-              <li><img src="images/li_counter.png"/></li>
+              <li><img src="images/li_counter.png" alt="" /></li>
             </ul>
           </div>
         </div>

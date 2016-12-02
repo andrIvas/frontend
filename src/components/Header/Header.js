@@ -11,10 +11,10 @@ class Header extends React.Component {
           <div className="header-logo_block">
             <Link className="header-logo" to="/"><span>КВА<span className="header-logo_r">Р</span>ТИРУМ</span></Link>
           </div>
-          <Link className="mob-menu_btn openMobMenu" to="/"></Link>
+          <Link className="mob-menu_btn openMobMenu" to="/" />
           <div className="main-menu_holder">
             <div className="user-menu">
-              <a className="user-menu_link" href="#"><span className="user-menu_icon"></span><span>Вход</span></a>
+              <Link className="user-menu_link" to="#"><span className="user-menu_icon" /><span>Вход</span></Link>
             </div>
             <ul className="main-menu">
               <li className="main-menu_item menuItem _dropdown-menu"><span className="gl_link">Квартиры</span>

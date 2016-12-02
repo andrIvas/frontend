@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
-import './Layout.scss'
+import './Layout.scss';
+
 class Layout extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
