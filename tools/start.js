@@ -1,3 +1,4 @@
+import browserSync from 'browser-sync';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -47,7 +48,20 @@ async function start() {
     let handleBundleComplete = async () => {
       handleBundleComplete = stats => !stats.stats[1].compilation.errors.length && runServer();
 
-      // const server = await runServer();
+      const server = await runServer();
+      const bs = browserSync.create();
+
+      bs.init({
+        ...(config.debug ? {} : { notify: false, ui: false }),
+
+        proxy: {
+          target: server.host,
+          middleware: [wpMiddleware, hotMiddleware],
+          proxyOptions: {
+            xfwd: true,
+          },
+        },
+      }, resolve);
     };
 
     bundler.plugin('done', stats => handleBundleComplete(stats));

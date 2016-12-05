@@ -1,0 +1,14 @@
+export default {
+  CART: {
+    ADD: {
+      REQUEST: 'ADD_TO_CART_REQUEST',
+      SUCCESS: 'ADD_TO_CART_SUCCESS',
+      FAILURE: 'ADD_TO_CART_FAILURE',
+    },
+    CHECKOUT: {
+      REQUEST: 'CART_CHECKOUT_REQUEST',
+      SUCCESS: 'CART_CHECKOUT_SUCCESS',
+      FAILURE: 'CART_CHECKOUT_FAILURE',
+    },
+  },
+};

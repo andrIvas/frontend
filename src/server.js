@@ -8,13 +8,13 @@ import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import PrettyError from 'pretty-error';
 
-import App from './components/App';
+
 import Html from './components/Html';
-import combinedReducers from './common/reducers';
+import combinedReducers from './reducers';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.scss';
-import routes from './common/routes/routing';
-// import assets from './assets'; // eslint-disable-line import/no-unresolved
+import routes from './routes/routing';
+import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port } from './config';
 
 const finalCreateStore = applyMiddleware()(createStore);

@@ -8,10 +8,10 @@ import { Router, RouterContext, match } from 'react-router';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import routes from '../common/routes/routing';
-import promiseMiddleware from '../common/middlewares/PromiseMiddleware';
+import routes from '../routes/routing';
+import promiseMiddleware from '../middlewares/PromiseMiddleware';
 import combinedReducers from '../common/reducers';
-import fetchComponentData from '../common/utils/fetchComponentData';
+import fetchComponentData from '../utils/fetchComponentData';
 
 const finalCreateStore = applyMiddleware(promiseMiddleware)(createStore);
 
