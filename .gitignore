@@ -1,7 +1,19 @@
-# Include your project-specific ignores in this file
-# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
-.idea
-build
-node_modules
-ncp-debug.log
+# Webstorm
+.idea/
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+
+node_modules/
+dist/
+*.iml
+.DB
+webpack-assets.json
+webpack-stats.json
 npm-debug.log
+.vagrant/
+
+*.sublime-workspace
+*.sublime-project

@@ -1,103 +1,130 @@
-import 'babel-polyfill';
-import path from 'path';
-import express from 'express';
+import Express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { Router, RouterContext, match } from 'react-router';
-import { applyMiddleware, createStore } from 'redux';
-import { Provider } from 'react-redux';
+import config from './config';
+import favicon from 'serve-favicon';
+import compression from 'compression';
+// import httpProxy from 'http-proxy';
+import path from 'path';
+import createStore from './redux/create';
+import ApiClient from './helpers/ApiClient';
+import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
+import http from 'http';
 
+import { match } from 'react-router';
+import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
+import createHistory from 'react-router/lib/createMemoryHistory';
+import { Provider } from 'react-redux';
+import getRoutes from './routes';
+import cookieServer from 'utils/cookie';
+import { syncHistoryWithStore } from 'react-router-redux';
 
-import Html from './components/Html';
-import combinedReducers from './reducers';
-import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
-import errorPageStyle from './routes/error/ErrorPage.scss';
-import routes from './routes/routing';
-import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port } from './config';
+let targetUrl = '';
 
-const finalCreateStore = applyMiddleware()(createStore);
-const app = express();
-app.use(express.static(path.join(__dirname, 'public')));
-
-if (process.env.NODE_ENV !== 'production') {
-  app.enable('trust proxy');
+if (config.apiPort && config.apiPort !== '') {
+  targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
+} else {
+  targetUrl = 'http://' + config.apiHost;
 }
 
-app.get('*', async (req, res, next) => {
-  try {
-    const css = new Set();
-    const context = {
-      insertCss: (...styles) => {
-        // eslint-disable-next-line no-underscore-dangle
-        styles.forEach(style => css.add(style._getCss()));
-      },
-    };
+const pretty = new PrettyError();
+const app = new Express();
+const server = new http.Server(app);
+// const proxy = httpProxy.createProxyServer({
+//   target: targetUrl,
+//   ws: false,
+//   changeOrigin: true
+// });
 
-    const store = finalCreateStore(combinedReducers);
-    match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-      if (error) {
-        return res.status(500).send(error.message);
-      }
-      if (redirectLocation) {
-        return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-      }
+app.disable('etag');
+app.disable('x-powered-by');
+app.use(compression());
+app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
-      if (renderProps == null) {
-        return res.status(404).send('Not found');
-      }
-      // return fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
-      return Promise.resolve()
-        .then(() => {
-          const data = {};
-          data.children = ReactDOM.renderToString((
-            <Provider store={store}>
-              <RouterContext {...renderProps} />
-            </Provider>
-          ));
-          data.state = JSON.stringify(store.getState());
-          data.style = [...css].join('');
-          data.scripts = []
-          const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-          res.status(200);
-          res.send(`<!doctype html>${html}`);
-          // console.log('\ndata:\n', data);
-          // console.log('\nhtml:\n', html);
-        })
-        .then(page => res.status(200).send(page))
-        .catch(err => res.end(err.message));
-    });
-  } catch (err) {
-    next(err);
+app.use(Express.static(path.join(__dirname, '..', 'static'), { etag: false }));
+
+// // // Proxy to API server
+// app.use('/api', (req, res) => {
+//   proxy.web(req, res, {target: targetUrl});
+// });
+//
+// // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
+// proxy.on('error', (error, req, res) => {
+//   let json;
+//   if (error.code !== 'ECONNRESET') {
+//     console.error('proxy error', error);
+//   }
+//   if (!res.headersSent) {
+//     res.writeHead(500, {'content-type': 'application/json'});
+//   }
+//
+//   json = {error: 'proxy_error', reason: error.message};
+//   res.end(JSON.stringify(json));
+// });
+
+app.use((req, res) => {
+  if (__DEVELOPMENT__) {
+    // Do not cache webpack stats: the script file would change since
+    // hot module replacement is enabled in the development env
+    webpackIsomorphicTools.refresh();
   }
+  const client = new ApiClient(req);
+  const browser_history = createHistory(req.originalUrl);
+
+  const store = createStore(browser_history, client);
+
+  const history = syncHistoryWithStore(browser_history, store);
+
+  function hydrateOnClient() {
+    res.send('<!doctype html>\n' +
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store} />));
+  }
+
+  if (__DISABLE_SSR__) {
+    hydrateOnClient();
+    return;
+  }
+
+  match({ history, routes: getRoutes(store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
+    if (redirectLocation) {
+      res.redirect(redirectLocation.pathname + redirectLocation.search);
+    } else if (error) {
+      console.error('ROUTER ERROR:', pretty.render(error));
+      res.status(500);
+      hydrateOnClient();
+    } else if (renderProps) {
+      loadOnServer({ ...renderProps, store, helpers: { client } }).then(() => {
+        const component = (
+          <Provider store={store} key="provider">
+            <ReduxAsyncConnect {...renderProps} />
+          </Provider>
+        );
+
+        res.status(200);
+
+        global.navigator = { userAgent: req.headers['user-agent'] };
+        if (req && req.get('cookie')) {
+          global.chosen_location = cookieServer.getServer(req.get('cookie'), 'chosen_location');
+        }
+
+        res.send('<!doctype html>\n' +
+          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store} />));
+      });
+    } else {
+      res.status(404).send('Not found');
+    }
+  });
 });
 
-//
-// Error handling
-// -----------------------------------------------------------------------------
-const pe = new PrettyError();
-pe.skipNodeFiles();
-pe.skipPackage('express');
-
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  console.log(pe.render(err)); // eslint-disable-line no-console
-  const html = ReactDOM.renderToStaticMarkup(
-    <Html
-      title="Internal Server Error"
-      description={err.message}
-      style={errorPageStyle._getCss()} // eslint-disable-line no-underscore-dangle
-    >
-      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
-    </Html>,
-  );
-  res.status(err.status || 500);
-  res.send(`<!doctype html>${html}`);
-});
-
-//
-// Launch the server
-// -----------------------------------------------------------------------------
-app.listen(port, () => {
-  console.log(`The server is running at http://localhost:${port}/`);
-});
+if (config.port) {
+  server.listen(config.port, (err) => {
+    if (err) {
+      console.error(err);
+    }
+    console.info('----\n==> ✅  %s is running, talking to API server on %s.', config.app.title, config.apiPort ? config.apiPort : '');
+    console.info('==> 💻  Open http://%s:%s in a browser to view the app.', config.host, config.port);
+  });
+} else {
+  console.error('==>     ERROR: No PORT environment variable has been specified');
+}
