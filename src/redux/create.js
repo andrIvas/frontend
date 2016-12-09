@@ -11,7 +11,7 @@ export default function createStore(history, client, data) {
 
   const middleware = [createMiddleware(client), reduxRouterMiddleware, thunk];
   if (__DEVELOPMENT__) {
-    middleware.push(createLogger({ collapsed: true }));
+    // middleware.push(createLogger({ collapsed: true }));
   }
 
   let finalCreateStore;

@@ -33,7 +33,7 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 8080,
-        "APIPORT": "",
+        "APIPORT": 8000,
         "APIHOST": ""
       }
     },
@@ -43,7 +43,7 @@
         "UV_THREADPOOL_SIZE": 100,
         "NODE_PATH": "./src",
         "PORT": 8080,
-        "APIPORT": "",
+        "APIPORT": 8000,
         "APIHOST": ""
       }
     },
@@ -73,6 +73,7 @@
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "express": "^4.14.0",
+    "express-http-proxy": "^0.10.1",
     "express-session": "^1.14.1",
     "http-proxy": "^1.14.0",
     "lru-memoize": "^1.0.1",
@@ -95,6 +96,7 @@
     "redux-connect": "^2.4.0",
     "redux-form": "^6.0.5",
     "redux-thunk": "^2.1.0",
+    "rxjs": "^5.0.0-rc.5",
     "scroll-behavior": "^0.3.2",
     "serialize-javascript": "^1.1.2",
     "serve-favicon": "^2.3.0",

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button, Select } from 'components';
+import { fetchLocations } from '../../redux/actions';
 
 class SearchForm extends Component {
   static propTypes = {
@@ -42,7 +43,7 @@ class SearchForm extends Component {
               <Select value="qqqqqqqqqqq">
                 <div className="hero_search-range">
                   <div className="input_w" >
-                    <label className="hero_search-range_label">от</label>
+                    <label className="hero_search-range_label" onClick={this.props.testAction}>от</label>
                     <input
                       className="f_input input-v2 searchRangeVal"
                       data-inputmask="'alias': 'decimal', 'groupSeparator': ' ', 'digitsOptional': true, 'autoGroup': true, 'rightAlign': false "
@@ -79,8 +80,5 @@ class SearchForm extends Component {
 
 export default connect(
   (state, ownProp) => ({ search: state.search }), {
-    testAction: () => {
-      console.log(1111111111);
-      return { type: 'CART_CHECKOUT_REQUEST' };
-    }
+    testAction: fetchLocations
   })(SearchForm);

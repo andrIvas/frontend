@@ -13,25 +13,23 @@ module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.APIPORT,
+  apiPort: process.env.APIPORT || process.env.PORT,
   apiPrefix: '/api',
   apiUrl: `http://${process.env.APIHOST}:${process.env.APIPORT}`,
-  apiTokenKey: 'x-access-token',
-  tokenExpire: 14, // in days
   app: {
-    title: 'TODO',
-    description: 'TODO description',
+    title: 'kvartyroom',
+    description: 'kvartyroom description',
     head: {
       htmlAttributes: {
-        lang: 'en'
+        lang: 'ru_RU'
       },
-      title: 'TODO',
+      title: 'kvartyroom',
       meta: [
         { name: 'description', content: '' },
         { charset: 'utf-8' },
-        { property: 'og:site_name', content: 'TODO' },
-        { property: 'og:locale', content: 'en_US' },
-        { property: 'og:title', content: 'TODO' },
+        { property: 'og:site_name', content: 'kvartyroom' },
+        { property: 'og:locale', content: 'ru_RU' },
+        { property: 'og:title', content: 'kvartyroom' },
         { property: 'og:description', content: '' },
         { property: 'og:image', content: '/logo.jpg' },
         { property: 'og:image:width', content: '200' },
@@ -39,14 +37,14 @@ module.exports = Object.assign({
       ]
     },
     notFound: {
-      title: 'TODO',
+      title: 'kvartyroom',
       meta: [
-        { name: 'description', content: 'TODO description' },
+        { name: 'description', content: 'kvartyroom description' },
         { charset: 'utf-8' },
-        { property: 'og:site_name', content: 'TODO' },
-        { property: 'og:locale', content: 'en_US' },
-        { property: 'og:title', content: 'TODO' },
-        { property: 'og:description', content: 'TODO description' },
+        { property: 'og:site_name', content: 'kvartyroom' },
+        { property: 'og:locale', content: 'ru_RU' },
+        { property: 'og:title', content: 'kvartyroom' },
+        { property: 'og:description', content: 'kvartyroom description' },
         { property: 'og:image', content: '/logo.jpg' },
         { property: 'og:image:width', content: '200' },
         { property: 'og:image:height', content: '200' }

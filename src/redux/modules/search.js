@@ -6,30 +6,66 @@ export const types = {
     REQUEST: 'SEARCH_REQUEST',
     SUCCESS: 'SEARCH_SUCCESS',
     FAILURE: 'SEARCH_FAILURE'
+  },
+  LOCATIONS: {
+    REQUEST: 'LOCATIONS_REQUEST',
+    SUCCESS: 'LOCATIONS_SUCCESS',
+    FAILURE: 'LOCATIONS_FAILURE'
   }
 };
 
-const initialState = {
-  list: {
-    tw: 'asfd'
-  }
+const initialSearch = {};
+const initialFilters = {
+  locations: [
+    { id: 1, name: 'Москва' },
+    { id: 2, name: 'Питер' },
+    { id: 3, name: 'Орел' },
+    { id: 4, name: 'Омск' },
+    { id: 5, name: 'Воронеж' }
+  ],
+  price: {
+    min: 0,
+    max: Infinity
+  },
+  apartmentType: [
+    { id: 1, name: '1-комнатная квартира' },
+    { id: 3, name: '2-комнатная квартира' },
+    { id: 2, name: '3-комнатная квартира' },
+    { id: 4, name: 'Студия' },
+  ]
 };
 
 
-function CART_CHECKOUT_REQUEST(state, action) {
+function searchRequest(state, action) {
+  return state;
+}
+function searchSuccess(state, action) {
+  return state;
+}
+function searchFailure(state, action) {
   return state;
 }
 
-function CART_CHECKOUT_ERROR(state, action) {
+function locationsRequest(state, action) {
   return state;
 }
-
-const handlers = {
-  [types.SEARCH.REQUEST]: CART_CHECKOUT_REQUEST,
-  [types.SEARCH.ERROR]: CART_CHECKOUT_ERROR,
-};
+function locationsSuccess(state, action) {
+  return state;
+}
+function locationsFailure(state, action) {
+  return state;
+}
 
 export default combineReducers({
-  value: createReducer(initialState, handlers)
+  filters: createReducer(initialFilters, {
+    [types.LOCATIONS.REQUEST]: locationsRequest,
+    [types.LOCATIONS.SUCCESS]: locationsSuccess,
+    [types.LOCATIONS.FAILURE]: locationsFailure,
+  }),
+  search: createReducer(initialSearch, {
+    [types.SEARCH.REQUEST]: searchRequest,
+    [types.SEARCH.SUCCESS]: searchSuccess,
+    [types.SEARCH.FAILURE]: searchFailure,
+  })
 });
 
