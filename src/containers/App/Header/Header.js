@@ -3,8 +3,6 @@ import Logo from './Logo';
 import UserLogin from './UserLogin';
 import MainMenu from './MainMenu/MainMenu';
 
-import {} from './Header.scss';
-
 
 class Header extends Component {
 

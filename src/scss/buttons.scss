@@ -1,0 +1,200 @@
+//************  buttons
+
+%btn_1 {
+
+}
+
+.btn_v1 {
+  height: 40px;
+
+  &.order_btn {
+    float: left;
+    border-radius: 4px;
+    text-align: center;
+    font: 16px/40px $FontfabricMullerRegular;
+    padding: 0 24px;
+
+    @include respond-to-max($resp_step_2) {
+      width: 100%;
+    }
+  }
+
+  &.slide_zoom {
+    position: absolute;
+    top: 224px;
+    left: 50%;
+    width: 140px;
+    margin-left: -70px;
+    margin-top: -20px;
+    border-radius: 4px;
+    text-align: center;
+    font: 16px/40px $FontfabricMullerRegular;
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+      padding: 0 3px;
+    }
+  }
+
+  &.show_more {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font: 14px/40px $FontfabricMullerRegular;
+    margin: 5px 0;
+  }
+
+  &.hero_btn {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    font: 16px/40px $FontfabricMullerRegular;
+    margin-top: 20px;
+
+    @include respond-to-min($resp_step_2) {
+      margin-top: 0;
+    }
+  }
+
+  &.rate_btn {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    padding: 0 26px;
+    font: 16px/40px $FontfabricMullerRegular;
+
+    @include respond-to-min($resp_step_2) {
+      display: inline-block;
+      vertical-align: middle;
+      width: auto;
+      margin-left: 20px;
+    }
+  }
+
+  &.filter_btn {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    padding: 0 14px;
+    font: 16px/40px $FontfabricMullerRegular;
+
+    &.text_left {
+      text-align: left;
+    }
+
+    .select-box-v1 & {
+      font-size: 14px;
+    }
+
+    ._ganged-mid & {
+      border-radius: 0;
+    }
+
+    ._ganged-first & {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    ._ganged-last & {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  &.review_btn {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    padding: 0 26px;
+    margin-bottom: 5px;
+    font: 16px/40px $FontfabricMullerRegular;
+
+    @include respond-to-min($resp_step_2) {
+      display: inline-block;
+      vertical-align: middle;
+      width: auto;
+    }
+  }
+
+  @at-root a#{&} {
+    &:hover {
+      opacity: .8;
+    }
+  }
+}
+
+.btn_v2 {
+  height: 28px;
+
+  &.title_btn {
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    padding: 0 10px;
+    font: 12px/28px $FontfabricMullerRegular;
+  }
+
+  @at-root a#{&} {
+    &:hover {
+      opacity: .8;
+    }
+  }
+}
+
+.btn_blue {
+  color: $gl_white;
+  background: $gl_turquoise;
+}
+
+.btn_transp_blue {
+  color: $gl_blue;
+  background: none;
+}
+
+.btn_white {
+  color: #999;
+  background: $gl_white;
+  border: 1px solid $gl_gray_lines;
+
+  &.selected {
+    color: $default_t_color;
+  }
+}
+
+.btn_white_2 {
+  color: $default_t_color;
+  background: $gl_white;
+
+  &:hover {
+    background: #f8f8f8;
+  }
+}
+
+.btn_white_transp {
+  @include transition_all(background .3s);
+  color: $default_t_color;
+  background: rgba(255, 255, 255, .55);
+
+  &:hover {
+    background: rgba(255, 255, 255, .8);
+  }
+}
+
+.btn_turquoise_transp {
+  @include transition_all(background .3s);
+  color: $gl_white;
+  background: transparentize($gl_turquoise, .45);
+
+  &:hover {
+    background: transparentize($gl_turquoise, .2);
+  }
+}
+
+

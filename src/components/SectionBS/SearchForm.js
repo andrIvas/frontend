@@ -1,62 +1,73 @@
 import React, { Component, PropTypes } from 'react';
-// import {} from './SectionBS.scss';
+import { connect } from 'react-redux';
+import { Button, Select } from 'components';
 
 class SearchForm extends Component {
+  static propTypes = {
+    testAction: PropTypes.func
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('searchforms componentWillReceiveProps', nextProps);
+  }
+
+  handleSubmitForm = (event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
   render() {
     return (
       <div className="hero_search">
-        <form action="#">
+        <form action="#" onSubmit={this.handleSubmitForm}>
           <div className="form-row">
             <div className="form-cell cell-s1 select-box-v1 select-multi-v1 _no-bdr">
-              <select
-                className="typeSelect select2" data-dropdown-class="dropdown-v1"
-                data-close-on-select="false" multiple data-placeholder="Купить"
-              >
-                <option>1-комнатная квартира</option>
-                <option>2-комнатная квартира</option>
-                <option>3-комнатная квартира</option>
-                <option>Студия</option>
-              </select>
+              <Select multiSelect={true} value="wwwwwwwwwwwww">
+                <li className="select2-results__option select2-results__option--highlighted" role="treeitem" aria-selected="false">1-комнатная квартира</li>
+                <li className="select2-results__option" role="treeitem" aria-selected="false">2-комнатная квартира</li>
+                <li className="select2-results__option" role="treeitem" aria-selected="false">3-комнатная квартира</li>
+                <li className="select2-results__option" role="treeitem" aria-selected="false">Студия</li>
+              </Select>
             </div>
             <div className="form-cell cell-s1 select-box-v1">
-              <div className="hero_search-price dropdown-control dropdown-v1 dropdownControl">
-                <div className="dropdown-val" id="range_val">Цена</div>
-                <div className="dropdown-block">
-                  <div className="hero_search-range">
-                    <div className="input_w">
-                      <label className="hero_search-range_label">от</label>
-                      <input
-                        className="f_input input-v2 searchRangeVal" id="range_start"
-                        data-inputmask="'alias': 'decimal', 'groupSeparator': ' ', 'digitsOptional': true, 'autoGroup': true, 'rightAlign': false "
-                      />
-                    </div>
-                    <div className="input_w">
-                      <label className="hero_search-range_label">до</label>
-                      <input
-                        className="f_input input-v2 searchRangeVal" id="range_end"
-                        data-inputmask="'alias': 'decimal', 'groupSeparator': ' ', 'digitsOptional': true, 'autoGroup': true, 'rightAlign': false "
-                      />
-                    </div>
+              <Select value="qqqqqqqqqqq">
+                <div className="hero_search-range">
+                  <div className="input_w" >
+                    <label className="hero_search-range_label">от</label>
+                    <input
+                      className="f_input input-v2 searchRangeVal"
+                      data-inputmask="'alias': 'decimal', 'groupSeparator': ' ', 'digitsOptional': true, 'autoGroup': true, 'rightAlign': false "
+                    />
+                  </div>
+                  <div className="input_w">
+                    <label className="hero_search-range_label">до</label>
+                    <input
+                      className="f_input input-v2 searchRangeVal"
+                      data-inputmask="'alias': 'decimal', 'groupSeparator': ' ', 'digitsOptional': true, 'autoGroup': true, 'rightAlign': false "
+                    />
                   </div>
                 </div>
-              </div>
+              </Select>
             </div>
             <div className="form-cell cell-s2 select-box-v1 select-search-v1">
-              <div className="input_w">
-                <select
-                  className="select2" data-dropdown-className="dropdown-v1"
-                  data-placeholder="Город, район, название комплекса" data-minimum-results-for-search="0"
-                >
-                  <option>Москва</option>
-                  <option>Питер</option>
-                  <option>Орел</option>
-                  <option>Омск</option>
-                  <option>Воронеж</option>
-                </select>
-              </div>
+              <Select value="qqqqqqqqqqq" changeFilter={() => {}}>
+                <li className="select2-results__option select2-results__option--highlighted" role="treeitem" aria-selected="true">Москва</li>
+                <li className="select2-results__option" role="treeitem" aria-selected="false">Орел</li>
+                <li className="select2-results__option" role="treeitem" aria-selected="false">Омск</li>
+                <li className="select2-results__option" role="treeitem" aria-selected="false">Воронеж</li>
+              </Select>
             </div>
             <div className="form-cell cell-s3">
-              <button className="btn_v1 btn_blue hero_btn">Подобрать</button>
+              <Button>Подобрать</Button>
             </div>
           </div>
         </form>
@@ -66,4 +77,10 @@ class SearchForm extends Component {
 }
 
 
-export default SearchForm;
+export default connect(
+  (state, ownProp) => ({ search: state.search }), {
+    testAction: () => {
+      console.log(1111111111);
+      return { type: 'CART_CHECKOUT_REQUEST' };
+    }
+  })(SearchForm);

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import SearchForm from './SearchForm';
-import {} from './SectionBS.scss';
+
 
 class SectionBS extends Component {
   render() {

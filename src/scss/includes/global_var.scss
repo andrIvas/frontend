@@ -1,66 +1,3 @@
-$develop : false;
-$production : true;
-$all : true;
-$ie9 : false;
-$ie8 : false;
-$ie7 : false;
-$doc : false;
-$local_var : global;
-$holydat_var : none;
-$icomoon-font-path: "fonts" !default;
-
-$i-helmet: "\e928";
-$i-user: "\e910";
-$i-metro: "\e913";
-$i-pin: "\e915";
-$i-pano: "\e917";
-$i-search2: "\e918";
-$i-pencil: "\e920";
-$i-plus: "\e923";
-$i-face: "\e926";
-$i-cart: "\e929";
-$i-tree: "\e92e";
-$i-book: "\e931";
-$i-pin2: "\e938";
-$i-check_filled: "\e93a";
-$i-clock: "\e93b";
-$i-builder: "\e93c";
-$i-car: "\e93d";
-$i-bus: "\e93e";
-$i-pedestrian: "\e93f";
-$i-phone2: "\e940";
-$i-humburger: "\e944";
-$i-search-thik: "\e90e";
-$i-close_2: "\e912";
-$i-sort: "\e914";
-$i-plus_w: "\e916";
-$i-face_w: "\e919";
-$i-cart_w: "\e91a";
-$i-tree_w: "\e91c";
-$i-book_w: "\e91d";
-$i-heart: "\e907";
-$i-profile: "\e903";
-$i-building---apartment: "\e900";
-$i-time---clock-hour: "\e901";
-$i-interior---sofa-chair: "\e902";
-$i-chevron_left: "\e92c";
-$i-chevron_right: "\e92d";
-$i-chevron-down: "\e904";
-$i-phone: "\e906";
-$i-check: "\e911";
-$i-heart-filled: "\e908";
-$i-checkmark: "\e90a";
-$i-chevron-thin-down: "\e909";
-$i-check-thin: "\e90b";
-$i-thumbs-o-down: "\e90c";
-$i-thumbs-o-up: "\e90d";
-$i-arrow-down: "\e91e";
-$i-arrow-up: "\e90f";
-$i-cross: "\e905";
-$i-map_pin: "\e91b";
-
-
-
 $pi: 3.14159265359;
 $square_root_of_2: 1.41421356237;
 
@@ -348,6 +285,10 @@ $cross_font_Verdana: Verdana, 'Geneva CY', 'DejaVu Sans', sans-serif;
 }
 
 @mixin inline_flexbox() {
+  display: -webkit-inline-box;
+  display: -moz-inline-box;
+  display: -ms-inline-flex;
+  display: -webkit-inline-flex;
   display: inline-flex;
 }
 
@@ -420,6 +361,32 @@ $cross_font_Verdana: Verdana, 'Geneva CY', 'DejaVu Sans', sans-serif;
       transition: $property !important;
     } @else {
       @if $delay != blank {
+        //				@if $easing != blank{
+        //					@if $important != blank{
+        //						-webkit-transition: $property $duration $easing $delay !important;
+        //						-moz-transition: $property $duration $easing $delay !important;
+        //						-o-transition: $property $duration $easing $delay !important;
+        //						transition: $property $duration $easing $delay !important;
+        //					} @else {
+        //						-webkit-transition: $property $duration $easing $delay;
+        //						-moz-transition: $property $duration $easing $delay;
+        //						-o-transition: $property $duration $easing $delay;
+        //						transition: $property $duration $easing $delay;
+        //					}
+        //				} @else {
+        //					@if $important != blank{
+        //						-webkit-transition: $property $duration $delay !important;
+        //						-moz-transition: $property $duration $delay !important;
+        //						-o-transition: $property $duration $delay !important;
+        //						transition: $property $duration $delay !important;
+        //					} @else {
+        //						-webkit-transition: $property $duration $delay;
+        //						-moz-transition: $property $duration $delay;
+        //						-o-transition: $property $duration $delay;
+        //						transition: $property $duration $delay;
+        //					}
+        //
+        //				}
         @if $easing != blank {
           @if $property == transform {
             @if $important != blank {
@@ -853,6 +820,30 @@ $cross_font_Verdana: Verdana, 'Geneva CY', 'DejaVu Sans', sans-serif;
   }
 }
 
+@mixin keyframe($animation_name, $check : false) {
+  @if $check == false {
+    @if $all == true {
+      @include keyframe_sub($animation_name);
+    }
+  } @else {
+    @include keyframe_sub($animation_name);
+  }
+}
+
+@mixin keyframe_sub($animation_name) {
+  @-webkit-keyframes $animation_name {
+    @content;
+  }
+
+  @-moz-keyframes $animation_name {
+    @content;
+  }
+
+  @keyframes $animation_name {
+    @content;
+  }
+}
+
 @mixin animation($animation, $duration, $timing-function : linear, $delay : 0, $direction : normal, $iteration-count : infinite, $fill-mode : both, $check : false, $full : false) {
   @if $check == false {
     @if $all == true {
@@ -999,9 +990,9 @@ $cross_font_Verdana: Verdana, 'Geneva CY', 'DejaVu Sans', sans-serif;
   $function-lightness: if($lightness > 0, 'darken', 'lighten');
 
   @return (
-    #{$function-hue}: -($hue),
-    #{$function-saturation}: abs($saturation),
-    #{$function-lightness}: abs($lightness),
+          #{$function-hue}: -($hue),
+          #{$function-saturation}: abs($saturation),
+          #{$function-lightness}: abs($lightness),
   );
 }
 
@@ -1078,269 +1069,4 @@ $cross_font_Verdana: Verdana, 'Geneva CY', 'DejaVu Sans', sans-serif;
   background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
 }
 
-[class^="i-"], [class*=" i-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'quartiroom_icons' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.i-helmet {
-  &:before {
-    content: $i-helmet;
-  }
-}
-.i-user {
-  &:before {
-    content: $i-user;
-  }
-}
-.i-metro {
-  &:before {
-    content: $i-metro;
-  }
-}
-.i-pin {
-  &:before {
-    content: $i-pin;
-  }
-}
-.i-pano {
-  &:before {
-    content: $i-pano;
-  }
-}
-.i-search2 {
-  &:before {
-    content: $i-search2;
-  }
-}
-.i-pencil {
-  &:before {
-    content: $i-pencil;
-  }
-}
-.i-plus {
-  &:before {
-    content: $i-plus;
-  }
-}
-.i-face {
-  &:before {
-    content: $i-face;
-  }
-}
-.i-cart {
-  &:before {
-    content: $i-cart;
-  }
-}
-.i-tree {
-  &:before {
-    content: $i-tree;
-  }
-}
-.i-book {
-  &:before {
-    content: $i-book;
-  }
-}
-.i-pin2 {
-  &:before {
-    content: $i-pin2;
-  }
-}
-.i-check_filled {
-  &:before {
-    content: $i-check_filled;
-  }
-}
-.i-clock {
-  &:before {
-    content: $i-clock;
-  }
-}
-.i-builder {
-  &:before {
-    content: $i-builder;
-  }
-}
-.i-car {
-  &:before {
-    content: $i-car;
-  }
-}
-.i-bus {
-  &:before {
-    content: $i-bus;
-  }
-}
-.i-pedestrian {
-  &:before {
-    content: $i-pedestrian;
-  }
-}
-.i-phone2 {
-  &:before {
-    content: $i-phone2;
-  }
-}
-.i-humburger {
-  &:before {
-    content: $i-humburger;
-  }
-}
-.i-search-thik {
-  &:before {
-    content: $i-search-thik;
-  }
-}
-.i-close_2 {
-  &:before {
-    content: $i-close_2;
-  }
-}
-.i-sort {
-  &:before {
-    content: $i-sort;
-  }
-}
-.i-plus_w {
-  &:before {
-    content: $i-plus_w;
-  }
-}
-.i-face_w {
-  &:before {
-    content: $i-face_w;
-  }
-}
-.i-cart_w {
-  &:before {
-    content: $i-cart_w;
-  }
-}
-.i-tree_w {
-  &:before {
-    content: $i-tree_w;
-  }
-}
-.i-book_w {
-  &:before {
-    content: $i-book_w;
-  }
-}
-.i-heart {
-  &:before {
-    content: $i-heart;
-  }
-}
-.i-profile {
-  &:before {
-    content: $i-profile;
-  }
-}
-.i-building---apartment {
-  &:before {
-    content: $i-building---apartment;
-  }
-}
-.i-time---clock-hour {
-  &:before {
-    content: $i-time---clock-hour;
-  }
-}
-.i-interior---sofa-chair {
-  &:before {
-    content: $i-interior---sofa-chair;
-  }
-}
-.i-chevron_left {
-  &:before {
-    content: $i-chevron_left;
-  }
-}
-.i-chevron_right {
-  &:before {
-    content: $i-chevron_right;
-  }
-}
-.i-chevron-down {
-  &:before {
-    content: $i-chevron-down;
-  }
-}
-.i-phone {
-  &:before {
-    content: $i-phone;
-  }
-}
-.i-check {
-  &:before {
-    content: $i-check;
-  }
-}
-.i-heart-filled {
-  &:before {
-    content: $i-heart-filled;
-  }
-}
-.i-checkmark {
-  &:before {
-    content: $i-checkmark;
-  }
-}
-.i-chevron-thin-down {
-  &:before {
-    content: $i-chevron-thin-down;
-  }
-}
-.i-check-thin {
-  &:before {
-    content: $i-check-thin;
-  }
-}
-.i-thumbs-o-down {
-  &:before {
-    content: $i-thumbs-o-down;
-  }
-}
-.i-thumbs-o-up {
-  &:before {
-    content: $i-thumbs-o-up;
-  }
-}
-.i-arrow-down {
-  &:before {
-    content: $i-arrow-down;
-  }
-}
-.i-arrow-up {
-  &:before {
-    content: $i-arrow-up;
-  }
-}
-.i-cross {
-  &:before {
-    content: $i-cross;
-  }
-}
-.i-map_pin {
-  &:before {
-    content: $i-map_pin;
-  }
-}
-
-
-@import "./reset";
-@import "./mixins";
-@import "./font_icons";
-@import "./fonts";
+@import "extends";

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import About from './About';
 import Menu from './Menu/Menu';
 import Copyright from './Copyright';
-import {} from './Footer.scss';
 
 class Footer extends Component {
   render() {

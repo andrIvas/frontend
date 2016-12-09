@@ -1,0 +1,15 @@
+
+.slick-list {
+  overflow: hidden;
+}
+
+.slick-track {
+  @extend %clearfix;
+}
+
+.slick-slide {
+  float: left;
+}
+
+
+

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {} from './MainContent.scss';
+
 
 class MainContent extends Component {
   render() {
