@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { SectionBS, MainContent } from 'components';
+import MainContent from './MainContent';
+import SectionBS from './SectionBS';
+
 
 class Home extends Component {
   render() {

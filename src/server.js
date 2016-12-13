@@ -48,7 +48,6 @@ app.use(Express.static(path.join(__dirname, '..', 'static'), { etag: false }));
 app.use('/api', (req, res) => {
   req.headers['content-type'] = 'application/json';
   proxy.web(req, res, { target: targetUrl });
-  console.log('targetUrl', targetUrl );
 });
 
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527

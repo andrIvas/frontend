@@ -13,7 +13,7 @@ class _ApiClient {
   constructor(req) {
     methods.forEach((method) => {
       this[method] = (path, { params, data, headers, attachments } = {}) => new Promise((resolve, reject) => {
-        const request = superagent[method](formatUrl(path));
+        const request = superagent[method](path);
 
         if (params) {
           request.query(params);

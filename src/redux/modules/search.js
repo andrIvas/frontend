@@ -16,18 +16,12 @@ export const types = {
 
 const initialSearch = {};
 const initialFilters = {
-  locations: [
-    { id: 1, name: 'Москва' },
-    { id: 2, name: 'Питер' },
-    { id: 3, name: 'Орел' },
-    { id: 4, name: 'Омск' },
-    { id: 5, name: 'Воронеж' }
-  ],
+  locations: [],
   price: {
     min: 0,
     max: Infinity
   },
-  apartmentType: [
+  apartments: [
     { id: 1, name: '1-комнатная квартира' },
     { id: 3, name: '2-комнатная квартира' },
     { id: 2, name: '3-комнатная квартира' },
@@ -50,7 +44,7 @@ function locationsRequest(state, action) {
   return state;
 }
 function locationsSuccess(state, action) {
-  return state;
+  return Object.assign({}, state, { locations: action.result });
 }
 function locationsFailure(state, action) {
   return state;

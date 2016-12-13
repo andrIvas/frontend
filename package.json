@@ -23,7 +23,7 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
         "PORT": 8080,
-        "APIPORT": "",
+        "APIPORT": 8000,
         "APIHOST": ""
       }
     },
@@ -52,7 +52,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "APIPORT": "",
+        "APIPORT": 8000,
         "APIHOST": ""
       }
     }
