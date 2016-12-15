@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import config from '../../config';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import {} from './App.scss';
+import {} from '../../scss/main_global.scss';
 
 export default class App extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ export default class App extends Component {
       <div className="app">
         <Helmet {...config.app.head} />
         <Header />
-        <div className="app__container">{this.props.children}</div>
+        {this.props.children}
         <Footer />
       </div>
     );
